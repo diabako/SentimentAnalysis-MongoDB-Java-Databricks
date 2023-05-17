@@ -1,1 +1,1 @@
-# SentimentAnalysis-MongoDB-Java-Databricks
+# SentimentAnalysis-MongoDB-Java
