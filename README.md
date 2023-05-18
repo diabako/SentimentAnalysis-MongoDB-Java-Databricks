@@ -164,7 +164,23 @@ sentiment_collection.insert_many(results)
 ```
 
 ### 10. Visualize Sentiment Analysis Results
-- Use MongoDB Atlas Charts to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post sentiment score over time. Here are the steps to build that chart:
+Use MongoDB Atlas Charts to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post sentiment score over time. Here are the steps to build that chart:
 
+- First, log in to MongoDB Atlas and navigate to your cluster.
+- Click on the **"Charts"** button.
 
-![Average Post Sentiment nbsp; Score Over Time](https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks/assets/84781155/b10124f3-2bbb-42d4-8078-dac3504f0a48)
+If you haven't used Atlas Charts before, you might need to set it up first. Just follow the on-screen instructions to get started.
+
+- After setting up Charts, click on the **"Dashboard"** tab, then click on the **"New Dashboard"** button to create a new dashboard. Give it a suitable name related to your project.
+- Once your new dashboard is created, click on the **"Add Chart"** button.
+- In the **"Data Source"** dropdown, select your sentiment analysis results collection.
+- Now, let's create the chart:
+   - In the **"Chart Type"** dropdown, select **"Continuous Line"** chart.
+   - In the **"X-Axis"** field, select **"created"** from the list and set its type to **"Time Field"**.
+   - In the **"Y-Axis"** field, select **"sentiment_score"** (or the appropriate field from your sentiment analysis results). 
+   - Finally, for **"Title"**, you can set it to **"Average Sentiment Score"**.
+
+- After you've set up the chart, click on the **"Save"** button. You should see the following chart:
+
+![Average Sentiment Score Over Time](https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks/assets/84781155/f0339964-2462-4c5c-a95f-3089a80ec9c6)
+
