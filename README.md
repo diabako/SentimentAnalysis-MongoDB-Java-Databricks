@@ -167,3 +167,4 @@ sentiment_collection.insert_many(results)
 - Use MongoDB Atlas Charts to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post sentiment score over time. Here are the steps to build that chart:
 
 
+![Average Post Sentiment nbsp; Score Over Time](https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks/assets/84781155/b10124f3-2bbb-42d4-8078-dac3504f0a48)
