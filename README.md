@@ -102,6 +102,11 @@ For a detailed walkthrough of the code, please refer to the source code in the r
 ```python
 !pip install pymongo
 ```
+- Install the TextBlob package in your Databricks notebook using the following command:
+
+```python
+!pip install textblob
+```
 
 ### 7. Load Data from MongoDB into Databricks using PyMongo
 - Create a connection string to your MongoDB Atlas cluster:
