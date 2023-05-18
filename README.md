@@ -1,4 +1,4 @@
-# [DRAFT] Building a Reddit Posts Sentiment Analysis with MongoDB Atlas and Databricks 
+# [DRAFT] Leveraging MongoDB Atlas and Databricks To Perform Reddit Posts Sentiment Analysis
 
 This guide will take you through the process of extracting posts from Reddit, storing them into a MongoDB Atlas time series collection, performing sentiment analysis on the posts using a pre-trained Textblob model in Databricks, and visualizing the results using MongoDB Atlas Charts. 
 
