@@ -1,0 +1,66 @@
+import pymongo
+from pymongo import MongoClient
+import pandas as pd
+from textblob import TextBlob
+
+# provide MongoDB Atlas credentials and details
+dbname = 'YOUR DATABASE NAME'
+collectionname = 'YOUR COLLECTION NAME'
+sentiment_collectionname = 'NAME OF THE NEW COLLECTION FOR RESULTS'
+uri = 'MONGODB ATLAS CONNECTION STRING'
+
+# Connect to the MongoDB Atlas cluster
+client = MongoClient(uri)
+
+# Create a collection object for your Reddit posts time-series data
+collection = client[dbname][collectionname]
+
+# Create a collection object for the result
+sentiment_collection = client[dbname][sentiment_collectionname]
+
+# Define a function to perform sentiment analysis on a single Reddit post using TextBlob
+def get_sentiment(text):
+    blob = TextBlob(text)
+    return blob.sentiment.polarity
+
+# Define the batch size
+batch_size = 1000
+
+# Define the number of documents to skip initially (if any)
+skip_docs = 0
+
+while True:
+    # Load a batch of data from the collection into a DataFrame
+    df = pd.DataFrame(list(collection.find().skip(skip_docs).limit(batch_size)))
+
+    if df.empty:
+        # No more documents in the collection
+        break
+
+    # Apply the get_sentiment function to the title, description, and comment columns of the DataFrame to calculate the sentiment score for each Reddit post
+    df['title_sentiment'] = df['title'].apply(get_sentiment)
+    df['description_sentiment'] = df['description'].apply(get_sentiment)
+    df['comment_sentiment'] = df['comments'].apply(lambda comments: sum([get_sentiment(comment['body']) for comment in comments])/len(comments) if comments else None)
+
+    # Merge the sentiment scores from the three columns and take the average
+    df['sentiment_score'] = df[['title_sentiment', 'description_sentiment', 'comment_sentiment']].mean(axis=1)
+
+    # Add the authors to the DataFrame
+    df['authors'] = df['author'] + ', ' + df['comments'].apply(lambda comments: ', '.join(set([comment['author'] for comment in comments])) if comments else '')
+
+    # Add the 'created' field
+    df['created'] = df['created']
+
+    df.reset_index(drop=True, inplace=True)
+
+   # Convert the DataFrame to a list of dictionaries
+    results = df.to_dict(orient='records')
+
+    # Insert the sentiment analysis results into the new collection
+    sentiment_collection.insert_many(results)
+
+    # Update the number of documents skipped
+    skip_docs += batch_size
+
+# Close the MongoDB Atlas connection
+client.close()
