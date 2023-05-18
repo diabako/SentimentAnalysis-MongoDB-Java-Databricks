@@ -115,10 +115,10 @@ For a detailed walkthrough of the code, please refer to the source code in the r
 import pymongo
 from pymongo import MongoClient
 
-# Replace <clustername>, <dbname> and uri with your own values.
-clustername = '<clustername>'
-dbname = '<dbname>'
-uri = f'mongodb+srv://{username}:{password}@{clustername}.mongodb.net/{dbname}?retryWrites=true&w=majority'
+dbname = 'YOUR DATABASE NAME'
+collectionname = 'YOUR COLLECTION NAME'
+sentiment_collectionname = 'NAME OF THE NEW COLLECTION FOR RESULTS'
+uri = 'MONGODB ATLAS CONNECTION STRING'
 
 # Connect to the MongoDB Atlas cluster
 client = MongoClient(uri)
@@ -130,11 +130,9 @@ client = MongoClient(uri)
 # Replace <collectionname> with the name of your collection.
 collection = client[dbname]['<collectionname>']
 
-import pandas as pd
+# Create a collection object for the result
+sentiment_collection = client[dbname][sentiment_collectionname]
 
-# Load all data from the collection into a DataFrame
-df = pd.DataFrame(list(collection.find()))
-df.head()
 ```
 
 ### 8. Use Textblob for Sentiment Analysis
@@ -167,6 +165,8 @@ results = df.to_dict(orient='records')
 sentiment_collection = client[dbname]['<sentiment_collection>']
 sentiment_collection.insert_many(results)
 ```
+
+For the full code of the sentiment analysis in Databricks, please refer to the file sentiment analysis code in this repository.
 
 ### 10. Visualize Sentiment Analysis Results
 Use MongoDB Atlas Charts to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post sentiment score over time. Here are the steps to build that chart:
