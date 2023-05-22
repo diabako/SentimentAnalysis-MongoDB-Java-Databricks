@@ -193,4 +193,4 @@ If you haven't used Atlas Charts before, you might need to set it up first. Just
 
 ## Enhancements 
 
-In part 2, I will be working on building a real time version of this project which would help aviliate some limitations I encountered around the Reddit API rate limit and the MongoDB V6 time series collection. 
+In part 2, I will be working on building a real time version of this project using kafka which would also us to add more social media platforms as well as avoiding some limitations I encountered around the Reddit API rate limit and MongoDB V6 time series collection.
