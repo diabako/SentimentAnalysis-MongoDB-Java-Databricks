@@ -33,6 +33,7 @@ This guide will take you through the process of extracting posts from Reddit, st
 
 ### 2. Setup MongoDB Atlas Cluster
 - For the MongoDB cluster, we will be using a M0 Free Tier MongoDB Cluster from MongoDB Atlas. If you don't have one already, check out the [Get Started with an M0 Cluster blog post](https://www.mongodb.com/developer/products/atlas/free-atlas-cluster/).
+- Make sure to use MongoDB V5+
 - In the Security tab, add a new IP Allowlist for your laptop's current IP address.
 
 ### 3. Setup Java Maven Project
