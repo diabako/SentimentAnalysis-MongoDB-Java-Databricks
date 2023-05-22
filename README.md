@@ -108,6 +108,8 @@ For a detailed walkthrough of the code, please refer to the source code in the r
 !pip install textblob
 ```
 
+- Make sure to retrieve your Databricks cluster IP and add it to MongoDB Atlas Allowlist.
+
 ### 7. Load Data from MongoDB into Databricks using PyMongo
 - Create a connection string to your MongoDB Atlas cluster:
 
@@ -191,4 +193,4 @@ If you haven't used Atlas Charts before, you might need to set it up first. Just
 
 ## Enhancements 
 
-One enhancement for this project would be to build a real time sentiment analysis which we will be exploring in part 2.
+In part 2, I will be working on building a real time version of this project which would help aviliate some limitations I encountered around the Reddit API rate limit and the MongoDB V6 time series collection. 
