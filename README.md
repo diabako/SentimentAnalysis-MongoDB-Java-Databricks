@@ -1,12 +1,16 @@
 # [DRAFT] Leveraging MongoDB Atlas and Databricks To Perform Reddit Posts Sentiment Analysis - Part 1
 
-This guide will take you through the process of extracting posts from Reddit, storing them into a MongoDB Atlas time series collection, performing sentiment analysis on the posts using a pre-trained Textblob model in Databricks, and visualizing the results using MongoDB Atlas Charts. 
+A few months back, Databricks and MongoDB Inc announced a seamless integration between the two platforms. Recognizing the potential of these powerful tools, I decided to conduct an experiment with a specific focus on sentiment analysis of social media data. 
+
+The primary objective of this project was to explore and illustrate how MongoDB Atlas and Databricks can be used together for sentiment analysis, specifically with the aim to understand developers' sentiment towards MongoDB, using Reddit as our primary data source. 
+
+This guide will take you through the process of extracting posts from Reddit, storing them into a MongoDB Atlas Time Series collection, performing sentiment analysis on the posts using a pre-trained Textblob model in Databricks, and visualizing the results using MongoDB Atlas Charts. 
 
 ## Prerequisites
-1. A Reddit account
-2. A MongoDB Atlas account
-3. A Databricks account
-4. A Java Maven setup
+1. [A Reddit account](https://www.reddit.com/register/)
+2. [A MongoDB Atlas account](https://www.mongodb.com/cloud/atlas/register?utm_source=google&utm_campaign=search_gs_pl_evergreen_atlas_general_prosp-brand_gic-null_emea-gb_ps-all_desktop_eng_lead&utm_term=free%20mongo%20db&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=1718986510&adgroup=150907563834&cq_cmp=1718986510&gad=1&gclid=Cj0KCQjwwISlBhD6ARIsAESAmp5wwR447q7_0POXPrUzdISfe81byfDYsshj56cYYHl3G4xmdPQP-REaAsgPEALw_wcB)
+3. [A Databricks account](https://www.databricks.com/try-databricks#account)
+4. [A Java Maven setup](https://www.mongodb.com/developer/languages/java/java-setup-crud-operations/?utm_campaign=javainsertingdocuments&utm_source=facebook&utm_medium=organic_social)
 
 ## High-Level Steps
 1. Create a Reddit App for data extraction
@@ -21,6 +25,10 @@ This guide will take you through the process of extracting posts from Reddit, st
 10. Visualize sentiment analysis results using MongoDB Atlas Charts
 
 ## Detailed Steps
+
+### High Level Architecture
+
+<img width="428" alt="Screenshot 2023-07-01 at 14 35 09" src="https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks/assets/84781155/89a4d739-bc37-4f96-9eff-a62a4d7d26ec">
 
 ### 1. Create a Reddit App for Data Extraction
 - Create a Reddit Account if you don’t have one already. Make sure to save your username and password as it will be needed.
@@ -41,7 +49,7 @@ Create a new Java Maven project on your local machine.
 - You can either clone the git repository:
 
 ```bash
-gh repo clone diabako/SentimentAnalysis-MongoDB-Java-Databricks
+git clone https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks.git
 ```
 
 - Or manually create a maven project using your favorite IDE. In the git repository, you will find the source code and pom.xml file with the dependencies needed for this project.
@@ -51,27 +59,39 @@ gh repo clone diabako/SentimentAnalysis-MongoDB-Java-Databricks
 
 ```java
 // Reddit API credentials
+// clientId: This is the unique identifier for your application. Obtain it by creating a new application at: https://www.reddit.com/prefs/apps
 String clientId = "<REDDIT_CLIENT_ID>";
+
+// clientSecret: This is the secret key for your application. You get it at the same place where you obtained your clientId.
 String clientSecret = "<REDDIT_CLIENT_SECRET>";
+
+// username: This is your personal Reddit username.
 String username = "<REDDIT_USERNAME>";
+
+// password: This is your personal Reddit password.
 String password = "<REDDIT_PASSWORD>";
 
 // Set up JRAW with your Reddit API credentials
+// UserAgent: This is used to identify the application making the request. It's a string made up of 'platform:app ID:version string (by /u/Reddit username)'
 UserAgent userAgent = new UserAgent("bot", "com.example.reddit", "v0.1", username);
+
+// Credentials: This bundles your username, password, clientId, and clientSecret into a format that JRAW can use.
 Credentials credentials = Credentials.script(username, password, clientId, clientSecret);
+
+// RedditClient: This is your primary interface to Reddit's API. It takes care of network operations, rate limiting, and so on.
 RedditClient redditClient = OAuthHelper.automatic(new net.dean.jraw.http.OkHttpNetworkAdapter(userAgent), credentials);
 ```
 
 - Configure MongoDB Atlas:
 
 ```java
-// Connect to MongoDB
+// Connect to MongoDB. More details on how to connect to MongoDB can be found [here](https://www.mongodb.com/developer/languages/java/java-setup-crud-operations/?utm_campaign=javainsertingdocuments&utm_source=facebook&utm_medium=organic_social#connecting-with-java).
 MongoClient mongoClient = MongoClients.create("<MONGODB_ATLAS_CLUSTER_CONNECTION_STRING>");
 MongoDatabase db = mongoClient.getDatabase("<MONGODB_DATABASE>");
 ```
 
 ### 5. Load Data into MongoDB Atlas
-- Create a time series collection via the Java helper:
+- Create a time series collection via the Java helper. More details on MongoDB Time Series collection and how to create and query them can be found [here](https://www.mongodb.com/developer/products/mongodb/new-time-series-collections/#how-to-create-a-time-series-collection):
 
 ```java
 String collectionName = "<REDDIT_COLLECTION_NAME>";
@@ -118,9 +138,16 @@ For a detailed walkthrough of the code, please refer to the source code in the r
 import pymongo
 from pymongo import MongoClient
 
+//dbname is the MONGODB_DATABASE created in step 4
 dbname = 'YOUR DATABASE NAME'
+
+//collectionname is the collection created in step 4 and which contains your raw reddit posts
 collectionname = 'YOUR COLLECTION NAME'
+
+//sentiment_collectionname is the new collection that will contains the results of the reddit posts sentiment analysis
 sentiment_collectionname = 'NAME OF THE NEW COLLECTION FOR RESULTS'
+
+//uri is the MongoDB Atlas connection string 
 uri = 'MONGODB ATLAS CONNECTION STRING'
 
 # Connect to the MongoDB Atlas cluster
@@ -138,7 +165,7 @@ sentiment_collection = client[dbname][sentiment_collectionname]
 
 ```
 
-### 8. Use Textblob for Sentiment Analysis
+### 8. Use [Textblob](https://textblob.readthedocs.io/en/dev/index.html) for Sentiment Analysis
 - Define a function to perform sentiment analysis on a single Reddit post using Textblob:
 
 ```python
@@ -172,7 +199,7 @@ sentiment_collection.insert_many(results)
 For the full code of the sentiment analysis in Databricks, please refer to the file sentiment analysis code in this repository.
 
 ### 10. Visualize Sentiment Analysis Results
-Use MongoDB Atlas Charts to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post sentiment score over time. Here are the steps to build that chart:
+Use [MongoDB Atlas Charts](https://www.mongodb.com/products/charts) to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post sentiment score over time. Here are the steps to build that chart:
 
 - First, log in to MongoDB Atlas and navigate to your cluster.
 - Click on the **"Charts"** button.
@@ -191,6 +218,12 @@ If you haven't used Atlas Charts before, you might need to set it up first. Just
 - After you've set up the chart, click on the **"Save"** button. You should see the following chart:
 
 ![Average Sentiment Score Over Time](https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks/assets/84781155/f0339964-2462-4c5c-a95f-3089a80ec9c6)
+
+After carefully orchestrating the sentiment analysis using MongoDB Atlas and Databricks, the resulting visualization paints an interesting picture of sentiments towards MongoDB over time. The above line chart shows the sentiment scores, ranging from -1 to 1, plotted over a time axis. A score of 1 represents a very positive sentiment, while -1 signifies a very negative sentiment.
+
+The fluctuating line in the chart captures the essence of public sentiment, showing the highs and lows in the developers' perception towards MongoDB. These shifts in sentiment can be strategically correlated with various events such as marketing campaigns or the release of new MongoDB versions. For example, a noticeable uptick in sentiment could indicate positive reception to a new version release or a successful marketing campaign, while a downturn could point towards the need for improvement or issue resolution.
+
+This can be a powerful tool for MongoDB Inc., offering actionable insights into the effectiveness of their strategies and the impact of their initiatives on the developer community over time.
 
 ## Enhancements 
 
