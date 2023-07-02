@@ -49,7 +49,7 @@ Create a new Java Maven project on your local machine.
 - You can either clone the git repository:
 
 ```bash
-git clone https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks.git
+git clone https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks
 ```
 
 - Or manually create a maven project using your favorite IDE. In the git repository, you will find the source code and pom.xml file with the dependencies needed for this project.
