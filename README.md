@@ -26,13 +26,13 @@ This guide will take you through the process of extracting posts from Reddit, st
 
 ## Detailed Steps
 
-### High Level Architecture
+### High-Level Architecture
 
 <img width="428" alt="Screenshot 2023-07-01 at 14 35 09" src="https://github.com/diabako/SentimentAnalysis-MongoDB-Java-Databricks/assets/84781155/89a4d739-bc37-4f96-9eff-a62a4d7d26ec">
 
 ### 1. Create a Reddit App for Data Extraction
-- Create a Reddit Account if you don’t have one already. Make sure to save your username and password as it will be needed.
-- Create a Reddit Application: Reddit requires you to create an application in order to use their API.
+- Create a Reddit Account if you don’t have one already. Make sure to save your username and password as they will be needed.
+- Create a Reddit Application: Reddit requires you to create an application in order to use its API.
   - Navigate to https://www.reddit.com/prefs/apps.
   - Click on "Create App" or "Create Another App".
   - Fill in the details: name, App type (choose script), description, about URL, redirect URI (http://localhost:8000 is fine).
@@ -141,10 +141,10 @@ from pymongo import MongoClient
 //dbname is the MONGODB_DATABASE created in step 4
 dbname = 'YOUR DATABASE NAME'
 
-//collectionname is the collection created in step 4 and which contains your raw reddit posts
+//collectionname is the collection created in step 4 and which contains your raw Reddit posts
 collectionname = 'YOUR COLLECTION NAME'
 
-//sentiment_collectionname is the new collection that will contains the results of the reddit posts sentiment analysis
+//sentiment_collectionname is the new collection that will contain the results of the Reddit posts sentiment analysis
 sentiment_collectionname = 'NAME OF THE NEW COLLECTION FOR RESULTS'
 
 //uri is the MongoDB Atlas connection string 
@@ -199,7 +199,7 @@ sentiment_collection.insert_many(results)
 For the full code of the sentiment analysis in Databricks, please refer to the file sentiment analysis code in this repository.
 
 ### 10. Visualize Sentiment Analysis Results
-Use [MongoDB Atlas Charts](https://www.mongodb.com/products/charts) to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post sentiment score over time. Here are the steps to build that chart:
+Use [MongoDB Atlas Charts](https://www.mongodb.com/products/charts) to visualize the sentiment analysis results. You can create various types of charts to understand the sentiment of the Reddit data over time. For example, in this project, we created a chart to visualize the average post-sentiment score over time. Here are the steps to build that chart:
 
 - First, log in to MongoDB Atlas and navigate to your cluster.
 - Click on the **"Charts"** button.
@@ -221,10 +221,12 @@ If you haven't used Atlas Charts before, you might need to set it up first. Just
 
 After carefully orchestrating the sentiment analysis using MongoDB Atlas and Databricks, the resulting visualization paints an interesting picture of sentiments towards MongoDB over time. The above line chart shows the sentiment scores, ranging from -1 to 1, plotted over a time axis. A score of 1 represents a very positive sentiment, while -1 signifies a very negative sentiment.
 
-The fluctuating line in the chart captures the essence of public sentiment, showing the highs and lows in the developers' perception towards MongoDB. These shifts in sentiment can be strategically correlated with various events such as marketing campaigns or the release of new MongoDB versions. For example, a noticeable uptick in sentiment could indicate positive reception to a new version release or a successful marketing campaign, while a downturn could point towards the need for improvement or issue resolution.
+The fluctuating line in the chart captures the essence of public sentiment, showing the highs and lows in the developers' perception of MongoDB. These shifts in sentiment can be strategically correlated with various events such as marketing campaigns or the release of new MongoDB versions. For example, a noticeable uptick in sentiment could indicate positive reception to a new version release or a successful marketing campaign, while a downturn could point towards the need for improvement or issue resolution.
 
 This can be a powerful tool for MongoDB Inc., offering actionable insights into the effectiveness of their strategies and the impact of their initiatives on the developer community over time.
 
 ## Enhancements 
 
-In part 2, I will be working on building a real time version of this project using kafka which would also us to add more social media platforms as well as avoiding some limitations I encountered around the Reddit API rate limit and MongoDB V6 time series collection.
+In part 2, I'll focus on developing a real-time version of this project using Kafka. Leveraging this technology will help us include more social media platforms and circumvent some limitations I previously encountered with the Reddit API rate limit and MongoDB V6 time series collection.
+
+Also, I'll enhance the project by adding more specific charts to provide a richer data visualization. To make things even more user-friendly, I'll share a dashboard that can be easily imported for immediate use. So, keep an eye out for these updates!
