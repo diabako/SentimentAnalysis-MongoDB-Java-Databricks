@@ -1,4 +1,4 @@
-# [DRAFT] Leveraging MongoDB Atlas and Databricks To Perform Reddit Posts Sentiment Analysis - Part 1
+# Leveraging MongoDB Atlas and Databricks To Perform Reddit Posts Sentiment Analysis - Part 1
 
 A few months back, [Databricks](https://www.databricks.com/) and [MongoDB Inc](https://www.mongodb.com/) announced a seamless integration between the two platforms. Recognizing the potential of these powerful tools, I decided to conduct an experiment with a specific focus on sentiment analysis of social media data. 
 
